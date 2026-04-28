@@ -239,4 +239,13 @@ impl CompressionMethod {
         let (input, value) = try_const!(le_u32(input));
         Ok((input, try_const!(Self::new(value))))
     }
+
+    /// Returns `true` if a BMP using this compression method is in fact
+    /// compressed.
+    pub const fn is_compressed(&self) -> bool {
+        match self {
+            Self::Rgb | Self::Bitfields => false,
+            Self::Rle8 | Self::Rle4 => true,
+        }
+    }
 }
